@@ -24,6 +24,7 @@ module.exports = {
         event.threadID,
         event.messageID
       );
+      api.sendMessage({ sticker: "1841028312616611" },
     }
 
     const idBox = args[0];
