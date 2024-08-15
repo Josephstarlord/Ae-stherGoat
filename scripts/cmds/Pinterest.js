@@ -1,64 +1,71 @@
-const fs = require("fs-extra")
-const axios = require("axios")
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
+
 module.exports = {
 	config: {
 		name: "pinterest",
-    aliases: ["pin","Pint"],
+		aliases: ["pin", "Pint"],
 		version: "1",
 		author: "Aesther",
 		countDown: 5,
 		role: 0,
 		shortDescription: {
 			vi: "Image Pinterest Search 📷",
-			en: "Image pinterest Search 📸"
+			en: "Image Pinterest Search 📸"
 		},
 		longDescription: {
-			uid: "Pinterest Search",
-			en: "Pinterest 🔎 image 😼"
+			en: "Pinterest image search."
 		},
-		category: "images search",
+		category: "image",
 		guide: {
-			vi: "   {pn}: enter in the format, example: Pinterest JUJUK-AISEN - 10 (it depends on you how many images you want to appear in the result)",
-			en: "   {pn}: enter in the format, example: Pinterest SASUKE KUN - 10 (it depends on you how many images you want to appear in the result)"
+			en: "{prefix}pinterest <search query> -<number of images>"
 		}
 	},
- 
-	langs: {
-		vi: {
-			syntaxError: "Server Busy"
-		},
-		en: {
-			syntaxError: "Server Busy"
+
+	onStart: async function ({ api, event, args, usersData }) {
+		try {
+			const userID = event.senderID;
+
+			const keySearch = args.join(" ");
+			if (!keySearch.includes("-")) {
+				return api.sendMessage(`🔴 𝘽𝙍𝙐𝙃𝙃 🔴\n-------------------------------\nExample: Pinterest Kakashi - 10\n (Specify how many images you want to appear in the result)`, event.threadID, event.messageID);
+			}
+			const keySearchs = keySearch.substr(0, keySearch.indexOf('-')).trim();
+			const numberSearch = parseInt(keySearch.split("-").pop().trim()) || 6;
+
+			const res = await axios.get(`https://celestial-dainsleif-v2.onrender.com/pinterest?pinte=${encodeURIComponent(keySearchs)}`);
+			const data = res.data;
+
+			if (!data || !Array.isArray(data) || data.length === 0) {
+				return api.sendMessage(`No image data found for "${keySearchs}". Please try another search query.`, event.threadID, event.messageID);
+			}
+
+			const imgData = [];
+
+			for (let i = 0; i < Math.min(numberSearch, data.length); i++) {
+				const imageUrl = data[i].image;
+
+				try {
+					const imgResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+					const imgPath = path.join(__dirname, 'cache', `${i + 1}.jpg`);
+					await fs.outputFile(imgPath, imgResponse.data);
+					imgData.push(fs.createReadStream(imgPath));
+				} catch (error) {
+					console.error(error);
+					// Handle image fetching errors (skip the problematic image)
+				}
+			}
+
+			await api.sendMessage({
+				attachment: imgData,
+				body: `-- 𝙋𝙄𝙉𝙏𝙀𝙍𝙀𝙎𝙏 -- ☂️ [${imgData.length}]\n[📱] "${keySearchs}":`
+			}, event.threadID, event.messageID);
+
+			await fs.remove(path.join(__dirname, 'cache'));
+		} catch (error) {
+			console.error(error);
+			return api.sendMessage(`An error occurred. Please try again later.`, event.threadID, event.messageID);
 		}
-	},
- 
-	onStart: async function ({ api, message, event, args, getLang }) 
-  {
- 
-    const keySearch = args.join(" ");
-    if(keySearch.includes("-") == false) return api.sendMessage('🔴𝘽𝙍𝙐𝙃𝙃🔴\n-------------------------------\nExemple : Pinterest Kakashi - 10\n (it depends on you how many images you want to appear in the result)❌️', event.threadID, event.messageID)
-    const keySearchs = keySearch.substr(0, keySearch.indexOf('-'))
-    let numberSearch = keySearch.split("-").pop() || 6
-    if(numberSearch>20){
-      numberSearch = 20
-    }
-    const res = await axios.get(`https://hazee-social-downloader-9080f854bdab.herokuapp.com/pinterest?search=${encodeURIComponent(keySearchs)}`);
-    const data = res.data.data;
-    var num = 0;
-    var imgData = [];
-    for (var i = 0; i < parseInt(numberSearch); i++) {
-      let path = __dirname + `/tmp/${num+=1}.jpg`;
-      let getDown = (await axios.get(`${data[i]}`, { responseType: 'arraybuffer' })).data;
-      fs.writeFileSync(path, Buffer.from(getDown, 'utf-8'));
-      imgData.push(fs.createReadStream(__dirname + `/tmp/${num}.jpg`));
-    }
-    api.sendMessage({
-        attachment: imgData,
-        body: numberSearch + '-- 𝙋𝙄𝙉𝙏𝙀𝙍𝙀𝙎𝙏 --☂️:\n '+ keySearchs
-    }, event.threadID, event.messageID)
-    for (let ii = 1; ii < parseInt(numberSearch); ii++) {
-        fs.unlinkSync(__dirname + `/tmp/${ii}.jpg`)
-    }
-}
- 
+	}
 };
