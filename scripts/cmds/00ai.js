@@ -48,6 +48,7 @@ module.exports = {
       const prompt = event.body.substring(prefix.length).trim();
       if (!prompt) {
         await message.reply("🟢 𝘼𝙀-𝙎𝙏𝙃𝙀𝙍 ⚪ 🔹\n\n[ദ്ദി ˉ͈̀꒳ˉ͈́ )✧]....?");
+          api.sendMessage({ sticker: "369239263222822" }, event.threadID);
         return;
       }
       const senderID = event.senderID;
