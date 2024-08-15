@@ -34,7 +34,7 @@ module.exports = {
       const categories = {};
       let msg = "";
 
-      msg += `》[𝘼𝙀𝙎𝙏𝙃𝙀𝙍⚪-𝗖𝗠𝗗𝙨]\n〓〓〓〓〓〓〓〓〓〓〓\n `; // replace with your name 
+      msg += `》[📑𝗟𝗜𝗦𝗧 - 𝗖𝗠𝗗𝙨]\n〓〓〓〓〓〓〓〓〓〓〓\n\n`; // replace with your name 
 
       for (const [name, value] of commands) {
         if (value.config.role > 1 && role < value.config.role) continue;
@@ -46,10 +46,10 @@ module.exports = {
 
       Object.keys(categories).forEach((category) => {
         if (category !== "info") {
-          msg += ` \n〉[🌐]━━「${category.toUpperCase()}」━━▪`;
+          msg += ` \✪ ━「${category.toUpperCase()}」━`;
 const names = categories[category].commands.sort();
           for (let i = 0; i < names.length; i += 3) {
-            const cmds = names.slice(i, i + 3).map((item) => `\n🟢﹝${item}﹞`);
+            const cmds = names.slice(i, i + 3).map((item) => `\n⌨︎_${item}`);
             msg += ` ${cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length)))}`;
           }
 
@@ -58,16 +58,16 @@ const names = categories[category].commands.sort();
       });
 
       const totalCommands = commands.size;
-      msg += `\n〓〓〓〓〓〓〓〓〓〓〓\n🔖𝗧𝗢𝗧𝗔𝗟 𝗖𝗺𝗱 [${totalCommands}📑]\n》𝙲𝚁𝙴𝙰𝚃𝙾𝚁:\n🌊𝗠𝗜𝗧𝗔𝗠𝗔-𝗦𝗔𝗠𝗔🌊\n𝙱𝚘𝚝 𝚎𝚗 𝙿𝚎𝚛𝚒𝚘𝚍𝚎 𝚍𝚎 𝚃𝚎𝚜𝚝 ☕ 𝚜𝚒 𝚟𝚘𝚞𝚜 𝚊𝚟𝚎𝚣 𝚍𝚎𝚜 𝚙𝚛𝚘𝚋𝚕𝚎𝚖𝚎s 𝚝𝚊𝚙𝚎𝚛 [@callad]\n▌│█║▌║▌║║▌║▌║█│▌`;
-      msg += ``;
+      msg += `\n\n〓〓〓〓〓〓〓〓〓〓〓\n➪[📅] 𝗧otal 𝗖𝗠𝗗s [${totalCommands}]\n➪[🛄]𝗢𝗪𝗡𝗘𝗥 : The GODDESS Aesther\n➪[🔱] 𝗡𝗕 :  use callad in any repport`;
+      msg += `\n\n/// 💬 𝗔𝗘𝗦𝗧𝗛𝗘𝗥 𝗕𝗢𝗧 ////`;
       msg += ``; // its not decoy so change it if you want 
 
       const helpListImages = [
-        'https://i.ibb.co/GnGXn5b/image.jpg', 
-        'https://i.ibb.co/y0MLcxK/image.jpg', 
-        'https://i.ibb.co/RDY3kF7/image.jpg', 
-        'https://i.ibb.co/BzmtMW1/image.jpg', 
-        'https://i.ibb.co/FXCSwZX/image.jpg', 
+        'https://i.postimg.cc/3x5YpzHj/20240814-182713.jpg', 
+        'https://i.postimg.cc/zDdW8hWV/Screenshot-2567-0813-211658.png', 
+        'https://i.postimg.cc/DZXK8cYp/20240814-182755.jpg', 
+        'https://i.postimg.cc/RhxxfnkS/20240814-182828.jpg', 
+        'https://i.postimg.cc/CMbg0m8z/FB-IMG-17236497453440241.jpg', 
       ];
 
       const helpListImage = helpListImages[Math.floor(Math.random() * helpListImages.length)];
