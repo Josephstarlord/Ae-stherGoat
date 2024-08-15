@@ -38,11 +38,13 @@ module.exports = {
 			const [tid, time] = fs.readFileSync(pathFile, "utf-8").split(" ");
 			api.sendMessage(`✔️ ××𝙎𝙐𝘾𝘾𝙀𝙎𝙎××\n━━━━━━━━━━━━\n✦ 🛄 𝗕𝗢𝗧 restarted :\n✦﹝⏱️TIME﹞: ${(Date.now() - time) / 1000}s🚀`, tid);
 			fs.unlinkSync(pathFile);
+			api.sendMessage({ sticker: "2379537642070973" }, event.threadID;
 		}
 	},
 
 	onStart: async function ({ message, event, getLang }) {
 		const pathFile = `${__dirname}/tmp/restart.txt`;
+		api.sendMessage({ sticker: "4046885555358632" }, event.threadID;
 		fs.writeFileSync(pathFile, `${event.threadID} ${Date.now()}`);
 		await message.reply(getLang("restartting"));
 		process.exit(2);
