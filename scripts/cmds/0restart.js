@@ -25,10 +25,10 @@ module.exports = {
 
 	langs: {
 		vi: {
-			restartting: "𝗥𝗘𝗦𝗧𝗔𝗥𝗧\n[🔴🔵⚪....] "
+			restartting: "𝗥𝗘𝗦𝗧𝗔𝗥𝗧\n[👨‍💻♻️🔰....] "
 		},
 		en: {
-			restartting: "𝗥𝗘𝗦𝗧𝗔𝗥𝗧\n[🔴🔵⚪....] "
+			restartting: "𝗥𝗘𝗦𝗧𝗔𝗥𝗧\n[👨‍💻♻️🔰....] "
 		}
 	},
 
@@ -36,7 +36,7 @@ module.exports = {
 		const pathFile = `${__dirname}/tmp/restart.txt`;
 		if (fs.existsSync(pathFile)) {
 			const [tid, time] = fs.readFileSync(pathFile, "utf-8").split(" ");
-			api.sendMessage(`✔️ ××𝙎𝙐𝘾𝘾𝙀𝙎𝙎××\n━━━━━━━━━━━━\n✦ 🛄 𝗕𝗢𝗧 restarted :\n✦﹝⏱️TIME﹞: ${(Date.now() - time) / 1000}s🚀`, tid);
+			api.sendMessage(`✅ ××𝙎𝙐𝘾𝘾𝙀𝙎𝙎××\n━━━━━━━━━━━━\n✦ 🤖 𝗕𝗢𝗧 restarted :\n✦﹝⏱️TIME﹞: ${(Date.now() - time) / 1000}s🚀`, tid);
 			fs.unlinkSync(pathFile);
 			api.sendMessage({ sticker: "2379537642070973" }, event.threadID;
 		}
